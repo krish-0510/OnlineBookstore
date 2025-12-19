@@ -1,101 +1,73 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaUserPlus, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserRegister = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [loaded, setLoaded] = useState(false);
+    const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
+    const [focused, setFocused] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("User Registration Attempt:", { name, email, password });
-    navigate('/user/dashboard');
-  };
+    useEffect(() => { setLoaded(true); }, []);
+    const handleSubmit = (e) => { e.preventDefault(); navigate('/user/dashboard'); };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex justify-center items-center p-4">
-      <div className="absolute top-8 left-8">
-        <Link to="/register" className="flex items-center text-white/80 hover:text-white transition-colors gap-2">
-          <FaArrowLeft /> Back
-        </Link>
-      </div>
+    return (
+        <div style={s.container}>
+            <style>{css}</style>
+            <div style={s.shapes}><div style={{ ...s.shape, ...s.s1 }} /><div style={{ ...s.shape, ...s.s2 }} /></div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 md:p-12 w-full max-w-md shadow-2xl border border-white/20"
-      >
-        <div className="flex justify-center mb-8">
-          <div className="bg-blue-500/80 p-4 rounded-full shadow-lg shadow-blue-500/30">
-            <FaUserPlus className="text-3xl text-white" />
-          </div>
+            <button style={s.backBtn} onClick={() => navigate('/register')}>← Back</button>
+
+            <div style={{ ...s.card, opacity: loaded ? 1 : 0, transform: loaded ? 'translateY(0)' : 'translateY(20px)' }}>
+                <div style={s.iconBox}>👤</div>
+                <h1 style={s.title}>Create Account</h1>
+                <p style={s.subtitle}>Join our reading community</p>
+
+                <form style={s.form} onSubmit={handleSubmit}>
+                    <div style={s.field}>
+                        <label style={s.label}>Full Name</label>
+                        <input type="text" placeholder="John Doe" style={{ ...s.input, borderColor: focused === 'n' ? '#8b5cf6' : '#e2e8f0' }} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} onFocus={() => setFocused('n')} onBlur={() => setFocused(null)} required />
+                    </div>
+                    <div style={s.field}>
+                        <label style={s.label}>Email</label>
+                        <input type="email" placeholder="you@example.com" style={{ ...s.input, borderColor: focused === 'e' ? '#8b5cf6' : '#e2e8f0' }} value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} onFocus={() => setFocused('e')} onBlur={() => setFocused(null)} required />
+                    </div>
+                    <div style={s.field}>
+                        <label style={s.label}>Password</label>
+                        <input type="password" placeholder="••••••••" style={{ ...s.input, borderColor: focused === 'p' ? '#8b5cf6' : '#e2e8f0' }} value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} onFocus={() => setFocused('p')} onBlur={() => setFocused(null)} required />
+                    </div>
+                    <div style={s.field}>
+                        <label style={s.label}>Confirm Password</label>
+                        <input type="password" placeholder="••••••••" style={{ ...s.input, borderColor: focused === 'c' ? '#8b5cf6' : '#e2e8f0' }} value={form.confirm} onChange={e => setForm({ ...form, confirm: e.target.value })} onFocus={() => setFocused('c')} onBlur={() => setFocused(null)} required />
+                    </div>
+                    <button type="submit" style={s.btn}>Create Account</button>
+                </form>
+
+                <p style={s.footer}>Have an account? <button style={s.link} onClick={() => navigate('/user/login')}>Sign in</button></p>
+            </div>
         </div>
+    );
+};
 
-        <h2 className="text-3xl font-bold text-white text-center mb-8">Create Account</h2>
+const css = `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap'); * { margin:0;padding:0;box-sizing:border-box; } @keyframes pulse{0%,100%{opacity:.3}50%{opacity:.6}}`;
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaUser className="text-blue-200" />
-            </div>
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaEnvelope className="text-blue-200" />
-            </div>
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaLock className="text-blue-200" />
-            </div>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder-blue-200/50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-blue-500/50 transition-all"
-            type="submit"
-          >
-            Register
-          </motion.button>
-        </form>
-
-        <div className="mt-8 text-center">
-          <Link to="/user/login" className="text-blue-200 hover:text-white text-sm transition-colors">Already have an account? Login</Link>
-        </div>
-      </motion.div>
-    </div>
-  );
+const s = {
+    container: { minHeight: '100vh', background: 'linear-gradient(135deg, #fafbff, #f0f4ff)', fontFamily: "'DM Sans',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative', overflow: 'hidden' },
+    shapes: { position: 'fixed', inset: 0, zIndex: 0 },
+    shape: { position: 'absolute', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 6s ease-in-out infinite' },
+    s1: { width: '350px', height: '350px', background: '#8b5cf650', top: '-10%', left: '-5%' },
+    s2: { width: '300px', height: '300px', background: '#06b6d450', bottom: '-10%', right: '-5%', animationDelay: '3s' },
+    backBtn: { position: 'absolute', top: '1.5rem', left: '1.5rem', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '0.5rem 1rem', color: '#64748b', fontSize: '0.9rem', fontWeight: 500, cursor: 'pointer', zIndex: 10 },
+    card: { background: '#fff', borderRadius: '24px', padding: '2rem', width: '100%', maxWidth: '380px', boxShadow: '0 20px 50px rgba(139,92,246,0.1)', transition: 'all 0.6s', position: 'relative', zIndex: 1 },
+    iconBox: { width: '56px', height: '56px', background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', fontSize: '1.5rem', boxShadow: '0 10px 25px rgba(139,92,246,0.3)' },
+    title: { fontSize: '1.4rem', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '0.2rem' },
+    subtitle: { fontSize: '0.85rem', color: '#64748b', textAlign: 'center', marginBottom: '1.5rem' },
+    form: { display: 'flex', flexDirection: 'column', gap: '1rem' },
+    field: { display: 'flex', flexDirection: 'column', gap: '0.3rem' },
+    label: { fontSize: '0.8rem', fontWeight: 600, color: '#475569' },
+    input: { padding: '0.75rem 1rem', border: '2px solid #e2e8f0', borderRadius: '10px', fontSize: '0.9rem', outline: 'none', transition: 'border-color 0.3s', color: '#1e293b' },
+    btn: { marginTop: '0.5rem', padding: '0.85rem', background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer', boxShadow: '0 8px 20px rgba(139,92,246,0.35)' },
+    footer: { textAlign: 'center', marginTop: '1.25rem', color: '#64748b', fontSize: '0.85rem' },
+    link: { background: 'none', border: 'none', color: '#8b5cf6', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' },
 };
 
 export default UserRegister;

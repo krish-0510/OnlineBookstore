@@ -1,86 +1,65 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaUserShield, FaEnvelope, FaLock, FaArrowLeft } from 'react-icons/fa';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false);
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [focused, setFocused] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Admin Login Attempt:", { email, password });
-    navigate('/admin/dashboard');
-  };
+  useEffect(() => { setLoaded(true); }, []);
+  const handleSubmit = (e) => { e.preventDefault(); navigate('/admin/dashboard'); };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-600 via-pink-600 to-red-500 flex justify-center items-center p-4">
-      <div className="absolute top-8 left-8">
-        <Link to="/login" className="flex items-center text-white/80 hover:text-white transition-colors gap-2">
-          <FaArrowLeft /> Back
-        </Link>
-      </div>
+    <div style={s.container}>
+      <style>{css}</style>
+      <div style={s.shapes}><div style={{ ...s.shape, ...s.s1 }} /><div style={{ ...s.shape, ...s.s2 }} /></div>
 
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
-        className="bg-white/10 backdrop-blur-xl rounded-2xl p-8 md:p-12 w-full max-w-md shadow-2xl border border-white/20"
-      >
-        <div className="flex justify-center mb-8">
-          <div className="bg-rose-500/80 p-4 rounded-full shadow-lg shadow-rose-500/30">
-            <FaUserShield className="text-3xl text-white" />
+      <button style={s.backBtn} onClick={() => navigate('/login')}>← Back</button>
+
+      <div style={{ ...s.card, opacity: loaded ? 1 : 0, transform: loaded ? 'translateY(0)' : 'translateY(20px)' }}>
+        <div style={s.iconBox}>⚙️</div>
+        <h1 style={s.title}>Admin Login</h1>
+        <p style={s.subtitle}>Platform administration</p>
+
+        <form style={s.form} onSubmit={handleSubmit}>
+          <div style={s.field}>
+            <label style={s.label}>Email</label>
+            <input type="email" placeholder="admin@example.com" style={{ ...s.input, borderColor: focused === 'e' ? '#f43f5e' : '#e2e8f0' }} value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} onFocus={() => setFocused('e')} onBlur={() => setFocused(null)} required />
           </div>
-        </div>
-
-        <h2 className="text-3xl font-bold text-white text-center mb-8">Admin Access</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaEnvelope className="text-rose-200" />
-            </div>
-            <input
-              type="email"
-              placeholder="Admin Email"
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder-rose-200/50 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white/10 transition-all"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          <div style={s.field}>
+            <label style={s.label}>Password</label>
+            <input type="password" placeholder="••••••••" style={{ ...s.input, borderColor: focused === 'p' ? '#f43f5e' : '#e2e8f0' }} value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} onFocus={() => setFocused('p')} onBlur={() => setFocused(null)} required />
           </div>
-
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaLock className="text-rose-200" />
-            </div>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-white placeholder-rose-200/50 focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white/10 transition-all"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-rose-500/50 transition-all"
-            type="submit"
-          >
-            Authenticate
-          </motion.button>
+          <button type="submit" style={s.btn}>Sign In</button>
         </form>
 
-        <div className="mt-8 text-center">
-          <p className="text-rose-200 text-sm">Authorized personnel only</p>
-        </div>
-      </motion.div>
+        <p style={s.footer}>Need access? <button style={s.link} onClick={() => navigate('/admin/register')}>Apply here</button></p>
+      </div>
     </div>
   );
+};
+
+const css = `@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap'); * { margin:0;padding:0;box-sizing:border-box; } @keyframes pulse{0%,100%{opacity:.3}50%{opacity:.6}}`;
+
+const s = {
+  container: { minHeight: '100vh', background: 'linear-gradient(135deg, #fafbff, #fff1f2)', fontFamily: "'DM Sans',sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative', overflow: 'hidden' },
+  shapes: { position: 'fixed', inset: 0, zIndex: 0 },
+  shape: { position: 'absolute', borderRadius: '50%', filter: 'blur(80px)', animation: 'pulse 6s ease-in-out infinite' },
+  s1: { width: '350px', height: '350px', background: '#f43f5e50', top: '-10%', right: '-5%' },
+  s2: { width: '300px', height: '300px', background: '#8b5cf650', bottom: '-10%', left: '-5%', animationDelay: '3s' },
+  backBtn: { position: 'absolute', top: '1.5rem', left: '1.5rem', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '10px', padding: '0.5rem 1rem', color: '#64748b', fontSize: '0.9rem', fontWeight: 500, cursor: 'pointer', zIndex: 10 },
+  card: { background: '#fff', borderRadius: '24px', padding: '2.5rem', width: '100%', maxWidth: '380px', boxShadow: '0 20px 50px rgba(244,63,94,0.1)', transition: 'all 0.6s', position: 'relative', zIndex: 1 },
+  iconBox: { width: '64px', height: '64px', background: 'linear-gradient(135deg, #f43f5e, #e11d48)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem', fontSize: '1.75rem', boxShadow: '0 10px 25px rgba(244,63,94,0.3)' },
+  title: { fontSize: '1.5rem', fontWeight: 700, color: '#1e293b', textAlign: 'center', marginBottom: '0.25rem' },
+  subtitle: { fontSize: '0.9rem', color: '#64748b', textAlign: 'center', marginBottom: '2rem' },
+  form: { display: 'flex', flexDirection: 'column', gap: '1.25rem' },
+  field: { display: 'flex', flexDirection: 'column', gap: '0.4rem' },
+  label: { fontSize: '0.85rem', fontWeight: 600, color: '#475569' },
+  input: { padding: '0.85rem 1rem', border: '2px solid #e2e8f0', borderRadius: '12px', fontSize: '0.95rem', outline: 'none', transition: 'border-color 0.3s', color: '#1e293b' },
+  btn: { marginTop: '0.5rem', padding: '0.9rem', background: 'linear-gradient(135deg, #f43f5e, #e11d48)', border: 'none', borderRadius: '12px', color: '#fff', fontSize: '1rem', fontWeight: 600, cursor: 'pointer', boxShadow: '0 8px 20px rgba(244,63,94,0.35)' },
+  footer: { textAlign: 'center', marginTop: '1.5rem', color: '#64748b', fontSize: '0.9rem' },
+  link: { background: 'none', border: 'none', color: '#f43f5e', fontWeight: 600, cursor: 'pointer', fontSize: '0.9rem' },
 };
 
 export default AdminLogin;
