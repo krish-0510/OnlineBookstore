@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUserShield, FaEnvelope, FaLock, FaUser, FaArrowLeft } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AdminRegister = () => {
   const [adminName, setAdminName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Admin Registration Attempt:", { adminName, email, password });
+    navigate('/admin/dashboard');
   };
 
   return (

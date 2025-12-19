@@ -19,8 +19,8 @@ const Navbar = () => {
     return (
         <nav
             className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-                    ? 'bg-white/80 backdrop-blur-md shadow-lg py-4'
-                    : 'bg-transparent py-6'
+                ? 'bg-white/80 backdrop-blur-md shadow-lg py-4'
+                : 'bg-transparent py-6'
                 }`}
         >
             <div className="container mx-auto px-6 flex justify-between items-center">
@@ -43,9 +43,12 @@ const Navbar = () => {
                     <button className="text-gray-600 hover:text-indigo-600 transition-colors">
                         <Search size={20} />
                     </button>
-                    <button className="text-gray-600 hover:text-indigo-600 transition-colors">
-                        <User size={20} />
-                    </button>
+                    <Link to="/login" className="px-6 py-2 text-indigo-600 font-medium hover:text-indigo-500 transition-colors">
+                        Login
+                    </Link>
+                    <Link to="/register" className="px-6 py-2 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-500 transition-colors shadow-lg hover:shadow-indigo-500/30">
+                        Register
+                    </Link>
                     <button className="text-gray-600 hover:text-indigo-600 transition-colors relative">
                         <ShoppingCart size={20} />
                         <span className="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
@@ -80,9 +83,12 @@ const Navbar = () => {
                                 <button className="flex items-center gap-2 text-gray-600">
                                     <Search size={20} /> Search
                                 </button>
-                                <button className="flex items-center gap-2 text-gray-600">
-                                    <User size={20} /> Account
-                                </button>
+                                <Link to="/login" className="flex items-center gap-2 text-gray-600" onClick={() => setIsOpen(false)}>
+                                    <User size={20} /> Login
+                                </Link>
+                                <Link to="/register" className="flex items-center gap-2 text-gray-600" onClick={() => setIsOpen(false)}>
+                                    <User size={20} /> Register
+                                </Link>
                                 <button className="flex items-center gap-2 text-gray-600">
                                     <ShoppingCart size={20} /> Cart (0)
                                 </button>
