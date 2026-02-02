@@ -20,7 +20,7 @@ const SellBooks = () => {
             price: 299,
             category: "Fiction",
             status: "In Stock",
-            image: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg",
+            image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=800&auto=format&fit=crop",
             sales: 12,
             rating: 4.8
         },
@@ -31,7 +31,7 @@ const SellBooks = () => {
             price: 450,
             category: "Self-Help",
             status: "Low Stock",
-            image: "https://m.media-amazon.com/images/I/91bYsX41hOL.jpg",
+            image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=800&auto=format&fit=crop",
             sales: 45,
             rating: 4.9
         },
@@ -42,7 +42,7 @@ const SellBooks = () => {
             price: 350,
             category: "Finance",
             status: "In Stock",
-            image: "https://m.media-amazon.com/images/I/81bsw6fnUiL.jpg",
+            image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=800&auto=format&fit=crop",
             sales: 28,
             rating: 4.7
         },
@@ -53,7 +53,7 @@ const SellBooks = () => {
             price: 399,
             category: "Productivity",
             status: "Out of Stock",
-            image: "https://m.media-amazon.com/images/I/81I-uKndm9L.jpg",
+            image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
             sales: 8,
             rating: 4.6
         },
@@ -64,7 +64,7 @@ const SellBooks = () => {
             price: 320,
             category: "Finance",
             status: "In Stock",
-            image: "https://m.media-amazon.com/images/I/71g2ednj0JL.jpg",
+            image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop",
             sales: 34,
             rating: 4.8
         },
@@ -75,7 +75,7 @@ const SellBooks = () => {
             price: 550,
             category: "Psychology",
             status: "In Stock",
-            image: "https://m.media-amazon.com/images/I/41shS294SXL._SX331_BO1,204,203,200_.jpg",
+            image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?q=80&w=800&auto=format&fit=crop",
             sales: 15,
             rating: 4.7
         }

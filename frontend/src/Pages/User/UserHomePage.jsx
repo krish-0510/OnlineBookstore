@@ -15,7 +15,7 @@ const dummyBooks = [
     {
         id: 2,
         title: "To Kill a Mockingbird",
-        image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=800&auto=format&fit=crop",
         description: "Harper Lee's masterpiece about justice.",
         price: "₹212.50",
         seller: "Readers Haven"
@@ -23,7 +23,7 @@ const dummyBooks = [
     {
         id: 3,
         title: "1984",
-        image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=800&auto=format&fit=crop",
         description: "Dystopian social science fiction novel and cautionary tale.",
         price: "₹314.00",
         seller: "Orwellian Store"
@@ -31,7 +31,8 @@ const dummyBooks = [
     {
         id: 4,
         title: "Harry Potter",
-        image: "https://images.unsplash.com/photo-1626618012641-bf8ca552980d?q=80&w=800&auto=format&fit=crop",
+        // image: "https://images.unsplash.com/photo-1626618012641-bf8ca552980d?q=80&w=800&auto=format&fit=crop",
+        image: "https://m.media-amazon.com/images/I/81-B-8UGo6L._SL1500_.jpg",
         description: "A young wizard's journey through magic and mystery.",
         price: "₹120.00",
         seller: "Magic World"
