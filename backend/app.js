@@ -15,9 +15,11 @@ app.use(cookieParser());
 //Routes
 const userRoutes = require('./routes/user.routes');
 const sellerRoutes = require('./routes/seller.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 app.use('/users', userRoutes);
 app.use('/sellers', sellerRoutes);
+app.use('/admins', adminRoutes);
 
 // CONNECTION TO DATABASE
 const connectToDb = require('./db/db');
