@@ -39,8 +39,8 @@ const Navbar = () => {
                         <BookOpen size={22} className="text-white" />
                     </motion.div>
                     <span className="text-2xl font-bold">
-                        <span className="text-emerald-600">Book</span>
-                        <span className="text-gray-900">Store</span>
+                        <span className="text-emerald-600">Read</span>
+                        <span className="text-gray-900">ora</span>
                     </span>
                 </Link>
 

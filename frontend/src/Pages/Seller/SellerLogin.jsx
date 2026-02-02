@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const SellerLogin = () => {
@@ -8,7 +9,32 @@ const SellerLogin = () => {
     const [focused, setFocused] = useState(null);
 
     useEffect(() => { setLoaded(true); }, []);
-    const handleSubmit = (e) => { e.preventDefault(); navigate('/seller/dashboard'); };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/sellers/login`, {
+                email: form.email,
+                password: form.password
+            });
+
+            if (response.status === 200) {
+                const { token, role, seller } = response.data;
+                localStorage.setItem('token', token);
+
+                if (role === 'admin') {
+                    localStorage.setItem('role', 'admin');
+                    navigate('/admin/control');
+                } else {
+                    localStorage.setItem('seller', JSON.stringify(seller));
+                    navigate('/seller/home');
+                }
+            }
+        } catch (error) {
+            console.error("Seller Login error:", error);
+            alert(error.response?.data?.message || "Login failed");
+        }
+    };
 
     return (
         <div style={s.container}>
@@ -18,9 +44,9 @@ const SellerLogin = () => {
             <button style={s.backBtn} onClick={() => navigate('/login')}>← Back</button>
 
             <div style={{ ...s.card, opacity: loaded ? 1 : 0, transform: loaded ? 'translateY(0)' : 'translateY(20px)' }}>
-                <div style={s.iconBox}>🏪</div>
-                <h1 style={s.title}>Seller Login</h1>
-                <p style={s.subtitle}>Manage your bookstore</p>
+                <div style={s.iconBox}>🔐</div>
+                <h1 style={s.title}>Partner Login</h1>
+                <p style={s.subtitle}>Seller & Admin Portal</p>
 
                 <form style={s.form} onSubmit={handleSubmit}>
                     <div style={s.field}>

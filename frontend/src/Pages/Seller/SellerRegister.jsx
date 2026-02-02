@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const SellerRegister = () => {
@@ -8,7 +9,27 @@ const SellerRegister = () => {
     const [focused, setFocused] = useState(null);
 
     useEffect(() => { setLoaded(true); }, []);
-    const handleSubmit = (e) => { e.preventDefault(); navigate('/seller/dashboard'); };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/sellers/register`, {
+                storename: form.store,
+                email: form.email,
+                password: form.password
+            });
+
+            if (response.status === 201) {
+                const { token, seller } = response.data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('seller', JSON.stringify(seller));
+                navigate('/seller/home');
+            }
+        } catch (error) {
+            console.error("Seller Registration error:", error);
+            alert(error.response?.data?.message || "Registration failed");
+        }
+    };
 
     return (
         <div style={s.container}>
@@ -25,7 +46,7 @@ const SellerRegister = () => {
                 <form style={s.form} onSubmit={handleSubmit}>
                     <div style={s.field}>
                         <label style={s.label}>Store Name</label>
-                        <input type="text" placeholder="My Bookstore" style={{ ...s.input, borderColor: focused === 's' ? '#06b6d4' : '#e2e8f0' }} value={form.store} onChange={e => setForm({ ...form, store: e.target.value })} onFocus={() => setFocused('s')} onBlur={() => setFocused(null)} required />
+                        <input type="text" placeholder="My Readora Store" style={{ ...s.input, borderColor: focused === 's' ? '#06b6d4' : '#e2e8f0' }} value={form.store} onChange={e => setForm({ ...form, store: e.target.value })} onFocus={() => setFocused('s')} onBlur={() => setFocused(null)} required />
                     </div>
                     <div style={s.field}>
                         <label style={s.label}>Email</label>

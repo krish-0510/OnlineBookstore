@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Truck, Shield, Clock, BookOpen, Heart, ChevronRight, Sparkles, Gift, Users, Award } from 'lucide-react';
-import Navbar from '../../Components/Navbar';
+import Navbar from "../../Components/Common/Navbar";
 
 const LandingPage = () => {
     const fadeInUp = {
@@ -25,15 +25,15 @@ const LandingPage = () => {
     ];
 
     const featuredBooks = [
-        { title: 'The Art of Reading', author: 'Jane Wilson', price: '$24.99', oldPrice: '$34.99', rating: 4.9, reviews: 234, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400', badge: 'Bestseller' },
-        { title: 'Modern Classics', author: 'Robert Chen', price: '$19.99', oldPrice: '$29.99', rating: 4.8, reviews: 189, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400', badge: 'New' },
-        { title: 'Beyond Words', author: 'Emily Brooks', price: '$29.99', oldPrice: '$39.99', rating: 4.7, reviews: 156, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400', badge: 'Popular' },
-        { title: 'Digital Minds', author: 'Alex Turner', price: '$22.99', oldPrice: '$32.99', rating: 4.6, reviews: 98, image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400', badge: 'Trending' }
+        { title: 'The Art of Reading', author: 'Jane Wilson', price: '₹124.99', oldPrice: '₹34.99', rating: 4.9, reviews: 234, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400', badge: 'Bestseller' },
+        { title: 'Modern Classics', author: 'Robert Chen', price: '₹119.99', oldPrice: '₹29.99', rating: 4.8, reviews: 189, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400', badge: 'New' },
+        { title: 'Beyond Words', author: 'Emily Brooks', price: '₹129.99', oldPrice: '₹39.99', rating: 4.7, reviews: 156, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400', badge: 'Popular' },
+        { title: 'Digital Minds', author: 'Alex Turner', price: '₹122.99', oldPrice: '₹32.99', rating: 4.6, reviews: 98, image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400', badge: 'Trending' }
     ];
 
     const testimonials = [
         { name: 'Sarah Johnson', role: 'Book Lover', text: 'Amazing collection! Found rare books I was searching for years.', avatar: '👩‍💼' },
-        { name: 'Mike Chen', role: 'Student', text: 'Fast delivery and great prices. My go-to bookstore now!', avatar: '👨‍🎓' },
+        { name: 'Mike Chen', role: 'Student', text: 'Fast delivery and great prices. My go-to bookstore (Readora) now!', avatar: '👨‍🎓' },
         { name: 'Emily Davis', role: 'Teacher', text: 'The recommendations are spot on. Love this platform!', avatar: '👩‍🏫' }
     ];
 
@@ -76,7 +76,7 @@ const LandingPage = () => {
                                 className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full text-sm font-semibold shadow-lg shadow-emerald-500/25"
                             >
                                 <Sparkles size={18} />
-                                <span>#1 Rated Online Bookstore 2024</span>
+                                <span>#1 Rated Online Bookstore 2024 (Readora)</span>
                                 <Award size={18} />
                             </motion.div>
 
@@ -210,8 +210,8 @@ const LandingPage = () => {
                                         <p className="text-gray-500 mb-4">by Jane Wilson</p>
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <span className="text-2xl font-bold text-emerald-600">$24.99</span>
-                                                <span className="text-sm text-gray-400 line-through ml-2">$34.99</span>
+                                                <span className="text-2xl font-bold text-emerald-600">₹124.99</span>
+                                                <span className="text-sm text-gray-400 line-through ml-2">₹134.99</span>
                                             </div>
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
@@ -259,59 +259,10 @@ const LandingPage = () => {
                         </motion.div>
                     </div>
                 </div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                >
-                    <div className="flex flex-col items-center gap-2 text-gray-400">
-                        <span className="text-sm font-medium">Scroll to explore</span>
-                        <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center pt-2">
-                            <motion.div
-                                animate={{ y: [0, 12, 0], opacity: [1, 0.5, 1] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                                className="w-1.5 h-3 bg-emerald-500 rounded-full"
-                            />
-                        </div>
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* Features Section */}
-            <section className="py-20 bg-white relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-50/50 via-transparent to-amber-50/50" />
-                <div className="container mx-auto px-6 relative z-10">
-                    <div className="grid md:grid-cols-4 gap-6">
-                        {[
-                            { icon: <Truck size={28} />, title: "Free Shipping", desc: "Orders over $50", color: "from-blue-500 to-cyan-500", bg: "bg-blue-50" },
-                            { icon: <Shield size={28} />, title: "Secure Payment", desc: "100% Protected", color: "from-emerald-500 to-teal-500", bg: "bg-emerald-50" },
-                            { icon: <Clock size={28} />, title: "Fast Delivery", desc: "2-3 Business Days", color: "from-purple-500 to-pink-500", bg: "bg-purple-50" },
-                            { icon: <Gift size={28} />, title: "Gift Wrapping", desc: "Special Packaging", color: "from-amber-500 to-orange-500", bg: "bg-amber-50" }
-                        ].map((feature, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                whileHover={{ y: -8, scale: 1.02 }}
-                                className={`${feature.bg} p-6 rounded-2xl border border-white shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer group`}
-                            >
-                                <div className={`w-14 h-14 bg-gradient-to-r ${feature.color} rounded-xl flex items-center justify-center text-white shadow-lg mb-4 group-hover:scale-110 transition-transform`}>
-                                    {feature.icon}
-                                </div>
-                                <h3 className="font-bold text-lg text-gray-900 mb-1">{feature.title}</h3>
-                                <p className="text-gray-500 text-sm">{feature.desc}</p>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
             </section>
 
             {/* Categories Section */}
-            <section className="py-24 bg-gradient-to-b from-white to-gray-50">
+            <section className="py-12 bg-gradient-to-b from-white to-gray-50">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -415,9 +366,9 @@ const LandingPage = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                         <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${book.badge === 'Bestseller' ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white' :
-                                                book.badge === 'New' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' :
-                                                    book.badge === 'Popular' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' :
-                                                        'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                                            book.badge === 'New' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' :
+                                                book.badge === 'Popular' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' :
+                                                    'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
                                             }`}>
                                             {book.badge}
                                         </div>
@@ -506,53 +457,6 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            {/* Newsletter Section */}
-            <section className="py-24">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        className="relative bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 rounded-[3rem] p-12 lg:p-16 overflow-hidden shadow-2xl"
-                    >
-                        <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-
-                        <div className="relative z-10 max-w-3xl mx-auto text-center">
-                            <motion.div
-                                animate={{ rotate: [0, 10, -10, 0] }}
-                                transition={{ duration: 2, repeat: Infinity }}
-                                className="text-6xl mb-6"
-                            >
-                                📬
-                            </motion.div>
-                            <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
-                                Get Exclusive Deals!
-                            </h2>
-                            <p className="text-emerald-100 text-lg mb-8">
-                                Subscribe and get 20% off your first order plus weekly book recommendations
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email address"
-                                    className="flex-1 px-6 py-4 rounded-2xl bg-white/10 border-2 border-white/20 text-white placeholder-white/60 focus:outline-none focus:border-white/50 focus:bg-white/20 transition-all font-medium backdrop-blur-sm"
-                                />
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="px-8 py-4 bg-white text-emerald-600 rounded-2xl font-bold hover:bg-amber-50 transition-colors shadow-xl whitespace-nowrap"
-                                >
-                                    Subscribe Now 🎉
-                                </motion.button>
-                            </div>
-                            <p className="text-emerald-200 text-sm mt-4">🔒 We respect your privacy. Unsubscribe anytime.</p>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
             {/* Footer */}
             <footer className="bg-gray-900 text-white pt-20 pb-8">
                 <div className="container mx-auto px-6">
@@ -562,7 +466,7 @@ const LandingPage = () => {
                                 <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
                                     <BookOpen size={24} />
                                 </div>
-                                <span className="text-2xl font-bold">BookStore</span>
+                                <span className="text-2xl font-bold">Readora</span>
                             </div>
                             <p className="text-gray-400 text-sm mb-6">
                                 Your trusted destination for discovering amazing books and stories that inspire.
@@ -600,7 +504,7 @@ const LandingPage = () => {
                         ))}
                     </div>
                     <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-sm">© 2024 BookStore. Made with ❤️ for book lovers</p>
+                        <p className="text-gray-500 text-sm">© 2024 Readora. Made with ❤️ for book lovers</p>
                         <div className="flex gap-6 text-gray-400 text-sm">
                             <a href="#" className="hover:text-emerald-400 transition-colors">Privacy</a>
                             <a href="#" className="hover:text-emerald-400 transition-colors">Terms</a>

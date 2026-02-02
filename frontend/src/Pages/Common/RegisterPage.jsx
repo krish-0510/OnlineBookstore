@@ -9,9 +9,9 @@ const ROLES = [
         title: "Reader",
         desc: "Browse and purchase your favorite books",
         icon: BookOpen,
-        emoji: "📚",
-        gradient: "from-blue-500 to-cyan-500",
-        bgGradient: "from-blue-50 to-cyan-50",
+        emoji: "📖",
+        gradient: "from-indigo-600 to-blue-500",
+        bgGradient: "from-indigo-50 to-blue-50",
         path: "/user/register"
     },
     {
@@ -19,26 +19,16 @@ const ROLES = [
         title: "Seller",
         desc: "Start selling books to millions of readers",
         icon: Store,
-        emoji: "🏪",
-        gradient: "from-emerald-500 to-teal-500",
-        bgGradient: "from-emerald-50 to-teal-50",
+        emoji: "🏢",
+        gradient: "from-teal-600 to-emerald-500",
+        bgGradient: "from-teal-50 to-emerald-50",
         path: "/seller/register"
     },
-    {
-        id: "admin",
-        title: "Admin",
-        desc: "Apply for administrative access",
-        icon: ShieldCheck,
-        emoji: "🛡️",
-        gradient: "from-amber-500 to-orange-500",
-        bgGradient: "from-amber-50 to-orange-50",
-        path: "/admin/register"
-    }
 ];
 
 const RegisterPage = () => {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50/50 via-white to-emerald-50/50 flex flex-col relative overflow-hidden">
+        <div className="h-screen bg-gradient-to-br from-purple-50/50 via-white to-emerald-50/50 flex flex-col relative overflow-hidden">
             {/* Animated Background Blobs */}
             <motion.div
                 animate={{ scale: [1, 1.2, 1], x: [0, 30, 0], y: [0, -20, 0] }}
@@ -52,7 +42,7 @@ const RegisterPage = () => {
             />
 
             {/* Main Content */}
-            <main className="relative z-10 container mx-auto px-6 py-16 lg:py-24 flex flex-col items-center flex-grow">
+            <main className="relative z-10 container mx-auto px-6 py-8 flex flex-col items-center justify-center flex-grow">
                 {/* Back to Home */}
                 <Link
                     to="/"
@@ -66,26 +56,26 @@ const RegisterPage = () => {
                 <motion.div
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center max-w-2xl mx-auto mb-16"
+                    className="text-center max-w-2xl mx-auto mb-10"
                 >
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.2, type: "spring" }}
-                        className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-3xl shadow-xl shadow-purple-500/30 mb-6"
+                        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-xl shadow-purple-500/30 mb-4"
                     >
-                        <Gift size={36} className="text-white" />
+                        <Gift size={30} className="text-white" />
                     </motion.div>
 
                     <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Join BookStore! 🎉
+                        Join Readora! 🎉
                     </h1>
                     <p className="text-xl text-gray-500">
                         Create your account and start your reading journey
                     </p>
 
                     {/* Benefits Banner */}
-                    <motion.div
+                    {/* <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
@@ -93,27 +83,27 @@ const RegisterPage = () => {
                     >
                         <Sparkles size={20} />
                         <span className="font-semibold">Join today and get 20% off your first order!</span>
-                    </motion.div>
+                    </motion.div> */}
                 </motion.div>
 
                 {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
+                <div className="flex flex-col md:flex-row gap-10 w-full max-w-4xl justify-center items-stretch">
                     {ROLES.map((role, idx) => (
-                        <Link key={role.id} to={role.path}>
+                        <Link key={role.id} to={role.path} className="w-full md:w-1/2 flex">
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.15 }}
                                 whileHover={{ y: -12, scale: 1.02 }}
-                                className="group cursor-pointer h-full"
+                                className="group cursor-pointer w-full"
                             >
-                                <div className={`relative bg-gradient-to-br ${role.bgGradient} rounded-3xl p-8 border border-white shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden h-full`}>
+                                <div className={`relative bg-gradient-to-br ${role.bgGradient} rounded-3xl p-8 border border-white shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden h-full flex flex-col`}>
                                     {/* Background Emoji */}
                                     <div className="absolute -right-4 -top-4 text-[100px] opacity-10 group-hover:opacity-20 transition-opacity">
                                         {role.emoji}
                                     </div>
 
-                                    <div className="relative z-10">
+                                    <div className="relative z-10 flex flex-col h-full">
                                         <motion.div
                                             whileHover={{ rotate: [0, -10, 10, 0] }}
                                             className={`w-16 h-16 bg-gradient-to-br ${role.gradient} rounded-2xl flex items-center justify-center shadow-lg mb-6 group-hover:scale-110 transition-transform`}
@@ -121,12 +111,12 @@ const RegisterPage = () => {
                                             <role.icon className="w-8 h-8 text-white" />
                                         </motion.div>
 
-                                        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors">
+                                        <h2 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-600 transition-all font-outfit">
                                             {role.title}
                                         </h2>
-                                        <p className="text-gray-500 mb-6">{role.desc}</p>
+                                        <p className="text-gray-500 mb-6 flex-grow">{role.desc}</p>
 
-                                        <div className="flex items-center gap-2 text-gray-400 group-hover:text-emerald-600 font-semibold transition-colors">
+                                        <div className="flex items-center gap-2 text-gray-400 group-hover:text-emerald-600 font-semibold transition-colors mt-auto">
                                             <span>Get Started</span>
                                             <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                                                 <ArrowRight className="w-5 h-5" />
@@ -146,7 +136,7 @@ const RegisterPage = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.8 }}
-                    className="mt-16 text-center"
+                    className="mt-10 text-center"
                 >
                     <p className="text-gray-500 mb-4 text-lg">Already have an account?</p>
                     <Link
