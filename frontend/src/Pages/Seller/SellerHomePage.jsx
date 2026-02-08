@@ -93,6 +93,36 @@ const SellerHomePage = () => {
                             ))}
                         </div>
                     </section>
+
+                    {/* Quick Actions */}
+                    <section
+                        style={{ transitionDelay: '700ms' }}
+                        className={`bg-white/90 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 shadow-2xl shadow-slate-200/50 border border-white/60 transition-all duration-700 ease-out ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                            }`}
+                    >
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="h-8 w-1.5 bg-cyan-600 rounded-full" />
+                            <h3 className="text-2xl font-bold text-slate-900 tracking-tight">Quick Actions</h3>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <button
+                                onClick={() => navigate('/seller/my-books')}
+                                className="group p-6 rounded-2xl bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-100 hover:border-cyan-300 hover:shadow-lg hover:shadow-cyan-100/50 transition-all duration-300 flex flex-col items-center text-center gap-4"
+                            >
+                                <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center text-cyan-600 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                    <Book className="w-7 h-7" />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold text-slate-900 mb-1">Manage Books</h4>
+                                    <p className="text-sm text-slate-500">Add, edit, or remove books from your store.</p>
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-cyan-600 uppercase tracking-widest flex items-center gap-1 group-hover:gap-2 transition-all">
+                                    Go to Inventory <ArrowUpRight className="w-3.5 h-3.5" />
+                                </div>
+                            </button>
+                        </div>
+                    </section>
                 </div>
             </main>
 

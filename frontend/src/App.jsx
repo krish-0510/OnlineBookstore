@@ -9,7 +9,7 @@ import UserRegister from './Pages/User/UserRegister';
 import SellerRegister from './Pages/Seller/SellerRegister';
 import UserHomePage from './Pages/User/UserHomePage';
 import SellerHomePage from './Pages/Seller/SellerHomePage';
-import SellBooks from './Components/Seller/SellBooks';
+import SellBooks from './Pages/Seller/SellBooks';
 import AdminHomePage from './Pages/Admin/AdminHomePage';
 import AdminControl from './Pages/Admin/AdminControl';
 import { Toaster } from 'react-hot-toast';
