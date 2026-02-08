@@ -14,6 +14,8 @@ import SellBooks from './Pages/Seller/SellBooks';
 import AdminHomePage from './Pages/Admin/AdminHomePage';
 import AdminControl from './Pages/Admin/AdminControl';
 import { Toaster } from 'react-hot-toast';
+import SellerProtectedRoute from './Components/Seller/SellerProtectedRoute';
+import UserProtectedRoute from './Components/User/UserProtectedRoute';
 
 const App = () => {
   return (
@@ -29,12 +31,16 @@ const App = () => {
         <Route path="/seller/register" element={<SellerRegister />} />
 
         {/* User Routes  */}
-        <Route path="/user/home" element={<UserHomePage />} />
-        <Route path="/user/buy" element={<BuyBooks />} />
+        <Route element={<UserProtectedRoute />}>
+          <Route path="/user/home" element={<UserHomePage />} />
+          <Route path="/user/buy" element={<BuyBooks />} />
+        </Route>
 
         {/* Seller Routes */}
-        <Route path="/seller/home" element={<SellerHomePage />} />
-        <Route path="/seller/sell" element={<SellBooks />} />
+        <Route element={<SellerProtectedRoute />}>
+          <Route path="/seller/home" element={<SellerHomePage />} />
+          <Route path="/seller/sell" element={<SellBooks />} />
+        </Route>
 
         {/* Admin Routes */}
         <Route path="/admin/control" element={<AdminControl />} />
