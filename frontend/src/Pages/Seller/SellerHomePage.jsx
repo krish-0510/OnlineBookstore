@@ -107,7 +107,7 @@ const SellerHomePage = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <button
-                                onClick={() => navigate('/seller/my-books')}
+                                onClick={() => navigate('/seller/sell')}
                                 className="group p-6 rounded-2xl bg-gradient-to-br from-cyan-50 to-blue-50 border border-cyan-100 hover:border-cyan-300 hover:shadow-lg hover:shadow-cyan-100/50 transition-all duration-300 flex flex-col items-center text-center gap-4"
                             >
                                 <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center text-cyan-600 shadow-sm group-hover:scale-110 transition-transform duration-300">

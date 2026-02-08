@@ -32,7 +32,7 @@ const SellBooks = () => {
     const fetchBooks = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/books/my-books`, {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/books/sell`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setBooks(response.data.books);

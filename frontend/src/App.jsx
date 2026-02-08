@@ -34,7 +34,7 @@ const App = () => {
 
         {/* Seller Routes */}
         <Route path="/seller/home" element={<SellerHomePage />} />
-        <Route path="/seller/my-books" element={<SellBooks />} />
+        <Route path="/seller/sell" element={<SellBooks />} />
 
         {/* Admin Routes */}
         <Route path="/admin/control" element={<AdminControl />} />

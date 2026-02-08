@@ -204,7 +204,7 @@ const BuyBooks = () => {
                                                 className="group relative flex flex-col rounded-3xl border border-[#eadfd0] bg-white p-6 shadow-sm"
                                             >
                                                 <div className="flex items-start justify-between">
-                                                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-[#0f766e] to-[#0ea5a4] text-white text-lg font-semibold shadow-lg shadow-teal-200/60">
+                                                    <div className="grid h-12 w-12 place-items-center rounded-2xl bg-linear-to-br from-[#0f766e] to-[#0ea5a4] text-white text-lg font-semibold shadow-lg shadow-teal-200/60">
                                                         {book.name?.charAt(0)?.toUpperCase() || 'B'}
                                                     </div>
                                                     <span className="rounded-full border border-[#eadfd0] bg-[#f9f5ef] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#8b7d6b]">

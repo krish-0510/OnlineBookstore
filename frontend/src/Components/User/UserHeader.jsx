@@ -39,7 +39,7 @@ const UserHeader = ({ user }) => {
                     onClick={() => navigate('/user/home')}
                     className="group flex items-center gap-3 text-left"
                 >
-                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-[#0f766e] to-[#0ea5a4] text-white text-sm font-semibold shadow-lg shadow-teal-200/60 transition-transform group-hover:-translate-y-0.5">
+                    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-linear-to-br from-[#0f766e] to-[#0ea5a4] text-white text-sm font-semibold shadow-lg shadow-teal-200/60 transition-transform group-hover:-translate-y-0.5">
                         R
                     </span>
                     <span className="hidden sm:block">
