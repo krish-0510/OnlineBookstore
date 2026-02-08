@@ -13,6 +13,7 @@ import SellerHomePage from './Pages/Seller/SellerHomePage';
 import SellBooks from './Pages/Seller/SellBooks';
 import AdminHomePage from './Pages/Admin/AdminHomePage';
 import AdminControl from './Pages/Admin/AdminControl';
+import NotFoundPage from './Pages/Common/NotFoundPage';
 import { Toaster } from 'react-hot-toast';
 import SellerProtectedRoute from './Components/Seller/SellerProtectedRoute';
 import UserProtectedRoute from './Components/User/UserProtectedRoute';
@@ -45,6 +46,9 @@ const App = () => {
         {/* Admin Routes */}
         <Route path="/admin/control" element={<AdminControl />} />
         <Route path="/admin/home" element={<AdminHomePage />} />
+
+        {/* Catch-all */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
