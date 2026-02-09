@@ -127,9 +127,19 @@ const UserCart = () => {
                                     Review your selections before checkout.
                                 </p>
                             </div>
-                            <div className="flex items-center gap-2 rounded-full border border-[#eadfd0] bg-white px-5 py-3 text-sm font-semibold text-[#1f2933] shadow-sm">
-                                <IndianRupee className="h-4 w-4" />
-                                {formattedTotal}
+                            <div className="flex flex-wrap items-center gap-3">
+                                <div className="flex items-center gap-2 rounded-full border border-[#eadfd0] bg-white px-5 py-3 text-sm font-semibold text-[#1f2933] shadow-sm">
+                                    <IndianRupee className="h-4 w-4" />
+                                    {formattedTotal}
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => navigate('/user/payment')}
+                                    disabled={loading || items.length === 0}
+                                    className="inline-flex items-center gap-2 rounded-full bg-[#0f766e] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-200/70 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    Proceed to payment
+                                </button>
                             </div>
                         </div>
 

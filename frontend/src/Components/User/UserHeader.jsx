@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { BookOpen, LayoutGrid, LogOut, ShoppingBag } from 'lucide-react';
+import { BookOpen, LayoutGrid, LogOut, Package, ShoppingBag } from 'lucide-react';
 
 const navItems = [
     { label: 'Home', to: '/user/home', icon: LayoutGrid },
     { label: 'Browse Books', to: '/user/buy', icon: BookOpen },
-    { label: 'Cart', to: '/user/cart', icon: ShoppingBag }
+    { label: 'Cart', to: '/user/cart', icon: ShoppingBag },
+    { label: 'Orders', to: '/user/orders', icon: Package }
 ];
 
 const UserHeader = ({ user }) => {

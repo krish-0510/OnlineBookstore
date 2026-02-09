@@ -11,8 +11,11 @@ import UserHomePage from './Pages/User/UserHomePage';
 import BuyBooks from './Pages/User/BuyBooks';
 import BookPage from './Pages/Book/BookPage';
 import UserCart from './Pages/User/UserCart';
+import UserPayment from './Pages/User/UserPayment';
+import UserOrders from './Pages/User/UserOrders';
 import SellerHomePage from './Pages/Seller/SellerHomePage';
 import SellBooks from './Pages/Seller/SellBooks';
+import SellerOrders from './Pages/Seller/SellerOrders';
 import AdminHomePage from './Pages/Admin/AdminHomePage';
 import AdminControl from './Pages/Admin/AdminControl';
 import NotFoundPage from './Pages/Common/NotFoundPage';
@@ -40,12 +43,15 @@ const App = () => {
           <Route path="/user/book/:id" element={<BookPage />} />
           <Route path="/user/book" element={<BookPage />} />
           <Route path="/user/cart" element={<UserCart />} />
+          <Route path="/user/payment" element={<UserPayment />} />
+          <Route path="/user/orders" element={<UserOrders />} />
         </Route>
 
         {/* Seller Routes */}
         <Route element={<SellerProtectedRoute />}>
           <Route path="/seller/home" element={<SellerHomePage />} />
           <Route path="/seller/sell" element={<SellBooks />} />
+          <Route path="/seller/orders" element={<SellerOrders />} />
         </Route>
 
         {/* Admin Routes */}

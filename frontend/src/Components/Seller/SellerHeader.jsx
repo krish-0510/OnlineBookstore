@@ -25,6 +25,7 @@ const SellerHeader = () => {
     const navItems = [
         { label: 'Home', path: '/seller/home', icon: LayoutDashboard },
         { label: 'My Books', path: '/seller/sell', icon: BookOpen },
+        { label: 'Orders', path: '/seller/orders', icon: Package },
     ];
 
     return (
