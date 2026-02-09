@@ -16,10 +16,12 @@ app.use(cookieParser());
 const userRoutes = require('./routes/user.routes');
 const sellerRoutes = require('./routes/seller.routes');
 const bookRoutes = require('./routes/book.route');
+const orderRoutes = require('./routes/order.routes');
 
 app.use('/users', userRoutes);
 app.use('/sellers', sellerRoutes);
 app.use('/books', bookRoutes);
+app.use('/orders', orderRoutes);
 
 // CONNECTION TO DATABASE
 const connectToDb = require('./db/db');
