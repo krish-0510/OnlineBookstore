@@ -25,6 +25,8 @@ import { Toaster } from 'react-hot-toast';
 import SellerProtectedRoute from './Components/Seller/SellerProtectedRoute';
 import UserProtectedRoute from './Components/User/UserProtectedRoute';
 import AdminProtectedRoute from './Components/Admin/AdminProtectedRoute';
+import AboutUs from './Pages/Common/AboutUs';
+import ContactUs from './Pages/Common/ContactUs';
 
 const App = () => {
   return (
@@ -66,6 +68,8 @@ const App = () => {
         </Route>
 
         {/* Catch-all */}
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
