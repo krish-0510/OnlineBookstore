@@ -38,6 +38,7 @@ router.patch('/seller/:id/status', [
 ], orderController.updateSellerOrderStatus);
 
 router.get('/admin/shipped', authMiddleware.authAdmin, orderController.getAdminShippedOrders);
+router.get('/admin/delivered', authMiddleware.authAdmin, orderController.getAdminDeliveredOrders);
 router.patch('/admin/:id/status', [
     authMiddleware.authAdmin,
     body('status')

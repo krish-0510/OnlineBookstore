@@ -188,6 +188,21 @@ module.exports.getAdminShippedOrders = async (req, res) => {
     }
 };
 
+module.exports.getAdminDeliveredOrders = async (req, res) => {
+    try {
+        const orders = await orderModel
+            .find({ status: 'delivered' })
+            .sort({ createdAt: -1 })
+            .populate('userId', 'fullname email')
+            .populate('sellerId', 'storename email')
+            .populate('bookId', 'name author price');
+
+        res.status(200).json({ orders });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};
+
 module.exports.updateAdminOrderStatus = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
