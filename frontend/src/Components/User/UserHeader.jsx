@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { motion } from 'framer-motion';
-import { BookOpen, LayoutGrid, LogOut, Package, ShoppingBag } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { BookOpen, LayoutGrid, LogOut, Package, ShoppingBag, Menu, X } from 'lucide-react';
 
 const navItems = [
     { label: 'Home', to: '/user/home', icon: LayoutGrid },
@@ -14,6 +14,17 @@ const navItems = [
 const UserHeader = ({ user }) => {
     const navigate = useNavigate();
     const [cartCount, setCartCount] = useState(0);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    // Prevent scrolling when menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isMenuOpen]);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -83,10 +94,9 @@ const UserHeader = ({ user }) => {
                             key={to}
                             to={to}
                             className={({ isActive }) =>
-                                `flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
-                                    isActive
-                                        ? 'bg-[#0f766e] text-white shadow-sm'
-                                        : 'text-[#5c4f44] hover:text-[#0f766e]'
+                                `flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${isActive
+                                    ? 'bg-[#0f766e] text-white shadow-sm'
+                                    : 'text-[#5c4f44] hover:text-[#0f766e]'
                                 }`
                             }
                         >
@@ -116,39 +126,83 @@ const UserHeader = ({ user }) => {
                     <button
                         type="button"
                         onClick={handleLogout}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#f2c3b4] bg-[#fff4f0] px-4 py-2 text-sm font-semibold text-[#b34a2f] transition-all hover:-translate-y-0.5 hover:shadow-md"
+                        className="hidden md:inline-flex items-center gap-2 rounded-full border border-[#f2c3b4] bg-[#fff4f0] px-4 py-2 text-sm font-semibold text-[#b34a2f] transition-all hover:-translate-y-0.5 hover:shadow-md"
                     >
                         <LogOut className="h-4 w-4" />
                         Logout
                     </button>
+
+                    {/* Mobile Menu Toggle */}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden flex items-center justify-center p-2 text-[#5c4f44] hover:text-[#0f766e] transition-colors"
+                    >
+                        {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                    </button>
                 </div>
             </div>
 
-            <div className="px-4 pb-4 md:hidden">
-                <div className="flex items-center gap-2 overflow-x-auto rounded-full border border-[#e7dfd6] bg-white/70 p-1 shadow-sm">
-                    {navItems.map(({ label, to, icon: Icon }) => (
-                        <NavLink
-                            key={to}
-                            to={to}
-                            className={({ isActive }) =>
-                                `flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
-                                    isActive
-                                        ? 'bg-[#0f766e] text-white shadow-sm'
-                                        : 'text-[#5c4f44] hover:text-[#0f766e]'
-                                }`
-                            }
-                        >
-                            <Icon className="h-4 w-4" />
-                            {label}
-                            {to === '/user/cart' && cartCount > 0 && (
-                                <span className="ml-2 inline-flex min-w-6 items-center justify-center rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold text-[#0f766e]">
-                                    {cartCount}
-                                </span>
-                            )}
-                        </NavLink>
-                    ))}
-                </div>
-            </div>
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="md:hidden border-t border-[#e7dfd6] bg-[#f9f5ef]"
+                    >
+                        <div className="flex flex-col p-4 space-y-4">
+                            {/* User Profile in Mobile Menu */}
+                            <div className="flex items-center gap-3 rounded-xl border border-[#e7dfd6] bg-white/50 p-3">
+                                <div className="grid h-10 w-10 place-items-center rounded-full bg-[#1f2933] text-sm font-semibold text-white">
+                                    {initials}
+                                </div>
+                                <div>
+                                    <div className="text-sm font-semibold text-[#1f2933]">
+                                        {user?.fullname || 'Reader'}
+                                    </div>
+                                    <div className="text-xs text-[#8b7d6b]">{user?.email || 'member@readora.com'}</div>
+                                </div>
+                            </div>
+
+                            <nav className="flex flex-col gap-2">
+                                {navItems.map(({ label, to, icon: Icon }) => (
+                                    <NavLink
+                                        key={to}
+                                        to={to}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className={({ isActive }) =>
+                                            `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all ${isActive
+                                                ? 'bg-[#0f766e] text-white shadow-sm'
+                                                : 'bg-white/50 text-[#5c4f44] hover:bg-white hover:text-[#0f766e]'
+                                            }`
+                                        }
+                                    >
+                                        <Icon className="h-5 w-5" />
+                                        {label}
+                                        {to === '/user/cart' && cartCount > 0 && (
+                                            <span className="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white text-[10px] font-bold text-[#0f766e] px-1.5">
+                                                {cartCount}
+                                            </span>
+                                        )}
+                                    </NavLink>
+                                ))}
+                            </nav>
+
+                            <button
+                                onClick={() => {
+                                    setIsMenuOpen(false);
+                                    handleLogout();
+                                }}
+                                className="flex items-center justify-center gap-2 rounded-xl border border-[#f2c3b4] bg-[#fff4f0] px-4 py-3 text-sm font-semibold text-[#b34a2f] transition-all active:scale-[0.98]"
+                            >
+                                <LogOut className="h-5 w-5" />
+                                Logout
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </motion.header>
     );
 };
