@@ -17,6 +17,8 @@ router.delete('/delete/:id', authMiddleware.authSeller, bookController.deleteBoo
 
 router.get('/sell', authMiddleware.authSeller, bookController.getSellerBooks);
 
+router.get('/random', bookController.getRandomBooks);
+
 router.get('/all', bookController.getAllBooks);
 
 module.exports = router;

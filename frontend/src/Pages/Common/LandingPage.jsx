@@ -1,7 +1,173 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { motion } from 'framer-motion';
-import { ArrowRight, Star, Truck, Shield, Clock, BookOpen, Heart, ChevronRight, Sparkles, Gift, Users, Award } from 'lucide-react';
+import { ArrowRight, Star, BookOpen, Heart, ChevronRight, Sparkles, Award, Users, Shield } from 'lucide-react';
 import Navbar from "../../Components/Common/Navbar";
+
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=600";
+
+const LandingBookCard = ({ book }) => {
+    const [coverUrl, setCoverUrl] = useState('');
+    const [coverLoaded, setCoverLoaded] = useState(false);
+    const [coverSource, setCoverSource] = useState('');
+
+    const coverTitle = book.title?.trim() || '';
+    const coverAuthor = book.author?.trim() || '';
+    const coverIsbn = String(book.isbn || '').replace(/[^0-9X]/gi, '');
+
+    useEffect(() => {
+        if (coverIsbn) {
+            setCoverSource('isbn');
+            return;
+        }
+        if (coverTitle || coverAuthor) {
+            setCoverSource('search');
+            return;
+        }
+        setCoverSource('');
+    }, [coverAuthor, coverIsbn, coverTitle]);
+
+    useEffect(() => {
+        let active = true;
+        const controller = new AbortController();
+        const setIfActive = (url) => {
+            if (active) setCoverUrl(url);
+        };
+
+        setCoverLoaded(false);
+
+        if (coverSource === 'isbn' && coverIsbn) {
+            setIfActive(`https://covers.openlibrary.org/b/isbn/${coverIsbn}-L.jpg?default=false`);
+            return () => {
+                active = false;
+                controller.abort();
+            };
+        }
+
+        if (coverSource === 'search') {
+            setIfActive('');
+            if (!coverTitle && !coverAuthor) {
+                setIfActive(FALLBACK_IMAGE);
+                return () => {
+                    active = false;
+                    controller.abort();
+                };
+            }
+            (async () => {
+                try {
+                    const params = new URLSearchParams();
+                    if (coverTitle) params.set('title', coverTitle);
+                    if (coverAuthor) params.set('author', coverAuthor);
+                    params.set('limit', '1');
+                    const response = await fetch(`https://openlibrary.org/search.json?${params.toString()}`, {
+                        signal: controller.signal
+                    });
+                    if (!response.ok) throw new Error('Cover search failed');
+                    const data = await response.json();
+                    const doc = data?.docs?.[0];
+                    const coverId = doc?.cover_i;
+                    const editionKey = doc?.edition_key?.[0];
+                    if (coverId) {
+                        setIfActive(`https://covers.openlibrary.org/b/id/${coverId}-L.jpg`);
+                    } else if (editionKey) {
+                        setIfActive(`https://covers.openlibrary.org/b/olid/${editionKey}-L.jpg`);
+                    } else {
+                        setIfActive(FALLBACK_IMAGE);
+                    }
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        console.error('Cover search error:', err);
+                        setIfActive(FALLBACK_IMAGE);
+                    }
+                }
+            })();
+        } else {
+            setIfActive(FALLBACK_IMAGE);
+        }
+
+        return () => {
+            active = false;
+            controller.abort();
+        };
+    }, [coverAuthor, coverIsbn, coverSource, coverTitle]);
+
+    const handleCoverError = () => {
+        if (coverSource === 'isbn') {
+            setCoverSource('search');
+            return;
+        }
+        if (coverUrl !== FALLBACK_IMAGE) {
+            setCoverUrl(FALLBACK_IMAGE);
+        }
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -10 }}
+            className="group h-full"
+        >
+            <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+                <div className="relative h-64 overflow-hidden bg-gray-100 flex-shrink-0">
+                    {coverUrl ? (
+                        <img
+                            src={coverUrl}
+                            alt={book.title}
+                            onError={handleCoverError}
+                            onLoad={() => setCoverLoaded(true)}
+                            className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${coverLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
+                            <BookOpen size={48} />
+                        </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${book.badge === 'Bestseller' ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white' :
+                        book.badge === 'New' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' :
+                            book.badge === 'Popular' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' :
+                                'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
+                        }`}>
+                        {book.badge}
+                    </div>
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-50"
+                    >
+                        <Heart size={18} className="text-gray-400 hover:text-red-500 transition-colors" />
+                    </motion.button>
+                    <motion.button
+                        initial={{ y: 20, opacity: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                        className="absolute bottom-4 left-4 right-4 py-3 bg-white/95 backdrop-blur-sm rounded-xl font-semibold text-emerald-600 opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-emerald-600 hover:text-white"
+                    >
+                        Quick Add to Cart
+                    </motion.button>
+                </div>
+                <div className="p-5 flex flex-col flex-grow">
+                    <div className="flex items-center gap-1 mb-2">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={14} fill={i < Math.floor(book.rating) ? "#f59e0b" : "none"} className="text-amber-500" />
+                        ))}
+                        <span className="text-sm text-gray-400 ml-1">({book.rating})</span>
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-1 text-lg group-hover:text-emerald-600 transition-colors line-clamp-1" title={book.title}>{book.title}</h3>
+                    <p className="text-gray-500 text-sm mb-1 line-clamp-1">by {book.author}</p>
+                    <p className="text-emerald-600 text-xs font-medium mb-3">Sold by: {book.seller}</p>
+                    <div className="flex items-center justify-between mt-auto">
+                        <div>
+                            <span className="text-xl font-bold text-emerald-600">{book.price}</span>
+                            <span className="text-sm text-gray-400 line-through ml-2">{book.oldPrice}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
 
 const LandingPage = () => {
     const fadeInUp = {
@@ -24,12 +190,31 @@ const LandingPage = () => {
         { name: 'History', count: '950+', emoji: '🏛️', gradient: 'from-amber-500 to-orange-500' }
     ];
 
-    const featuredBooks = [
-        { title: 'The Art of Reading', author: 'Jane Wilson', price: '₹124.99', oldPrice: '₹34.99', rating: 4.9, reviews: 234, image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400', badge: 'Bestseller' },
-        { title: 'Modern Classics', author: 'Robert Chen', price: '₹119.99', oldPrice: '₹29.99', rating: 4.8, reviews: 189, image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400', badge: 'New' },
-        { title: 'Beyond Words', author: 'Emily Brooks', price: '₹129.99', oldPrice: '₹39.99', rating: 4.7, reviews: 156, image: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400', badge: 'Popular' },
-        { title: 'Digital Minds', author: 'Alex Turner', price: '₹122.99', oldPrice: '₹32.99', rating: 4.6, reviews: 98, image: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=400', badge: 'Trending' }
-    ];
+    const [featuredBooks, setFeaturedBooks] = useState([]);
+
+    useEffect(() => {
+        const fetchRandomBooks = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/books/random');
+                const books = response.data.books.map(book => ({
+                    _id: book._id,
+                    title: book.name,
+                    author: book.author,
+                    price: `₹${book.price}`,
+                    oldPrice: `₹${Math.round(book.price * 1.2)}`,
+                    rating: (Math.random() * (5 - 4) + 4).toFixed(1),
+                    isbn: book.isbn,
+                    seller: book.seller?.storename || 'Unknown Seller',
+                    badge: ['Bestseller', 'New', 'Popular', 'Trending'][Math.floor(Math.random() * 4)]
+                }));
+                setFeaturedBooks(books);
+            } catch (error) {
+                console.error("Error fetching random books:", error);
+            }
+        };
+
+        fetchRandomBooks();
+    }, []);
 
     const testimonials = [
         { name: 'Sarah Johnson', role: 'Book Lover', text: 'Amazing collection! Found rare books I was searching for years.', avatar: '👩‍💼' },
@@ -348,63 +533,7 @@ const LandingPage = () => {
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {featuredBooks.map((book, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                whileHover={{ y: -10 }}
-                                className="group"
-                            >
-                                <div className="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
-                                    <div className="relative h-64 overflow-hidden bg-gray-100">
-                                        <img
-                                            src={book.image}
-                                            alt={book.title}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                        <div className={`absolute top-4 left-4 px-3 py-1.5 rounded-full text-xs font-bold shadow-lg ${book.badge === 'Bestseller' ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white' :
-                                            book.badge === 'New' ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white' :
-                                                book.badge === 'Popular' ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' :
-                                                    'bg-gradient-to-r from-blue-500 to-cyan-500 text-white'
-                                            }`}>
-                                            {book.badge}
-                                        </div>
-                                        <motion.button
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.9 }}
-                                            className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-red-50"
-                                        >
-                                            <Heart size={18} className="text-gray-400 hover:text-red-500 transition-colors" />
-                                        </motion.button>
-                                        <motion.button
-                                            initial={{ y: 20, opacity: 0 }}
-                                            whileHover={{ scale: 1.02 }}
-                                            className="absolute bottom-4 left-4 right-4 py-3 bg-white/95 backdrop-blur-sm rounded-xl font-semibold text-emerald-600 opacity-0 group-hover:opacity-100 transition-all shadow-lg hover:bg-emerald-600 hover:text-white"
-                                        >
-                                            Quick Add to Cart
-                                        </motion.button>
-                                    </div>
-                                    <div className="p-5">
-                                        <div className="flex items-center gap-1 mb-2">
-                                            {[...Array(5)].map((_, i) => (
-                                                <Star key={i} size={14} fill={i < Math.floor(book.rating) ? "#f59e0b" : "none"} className="text-amber-500" />
-                                            ))}
-                                            <span className="text-sm text-gray-400 ml-1">({book.reviews})</span>
-                                        </div>
-                                        <h3 className="font-bold text-gray-900 mb-1 text-lg group-hover:text-emerald-600 transition-colors">{book.title}</h3>
-                                        <p className="text-gray-500 text-sm mb-3">by {book.author}</p>
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <span className="text-xl font-bold text-emerald-600">{book.price}</span>
-                                                <span className="text-sm text-gray-400 line-through ml-2">{book.oldPrice}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
+                            <LandingBookCard key={idx} book={book} />
                         ))}
                     </div>
                 </div>
