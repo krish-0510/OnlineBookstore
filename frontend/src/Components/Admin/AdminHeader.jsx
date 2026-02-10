@@ -5,7 +5,8 @@ const AdminHeader = ({ admin }) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('adminToken');
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
         localStorage.removeItem('admin');
         navigate('/seller/login');
     };
