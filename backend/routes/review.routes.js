@@ -22,6 +22,8 @@ router.get('/seller', authMiddleware.authSeller, reviewController.getSellerRevie
 
 router.get('/my', authMiddleware.authUser, reviewController.getMyReviews);
 
+router.get('/random', reviewController.getRandomReviews);
+
 router.get('/book/:bookId', [
     param('bookId').isMongoId().withMessage('Valid bookId is required')
 ], reviewController.getBookReviews);

@@ -151,3 +151,34 @@ module.exports.getAdminReviews = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+
+module.exports.getRandomReviews = async (req, res) => {
+    try {
+        const count = await reviewModel.countDocuments();
+
+        let reviews;
+        if (count > 5) {
+            reviews = await reviewModel.aggregate([
+                { $sample: { size: 5 } },
+                { $lookup: { from: 'users', localField: 'userId', foreignField: '_id', as: 'user' } },
+                { $unwind: '$user' },
+                {
+                    $project: {
+                        _id: 1,
+                        rating: 1,
+                        comment: 1,
+                        'user.fullname': 1
+                    }
+                }
+            ]);
+        } else {
+            reviews = await reviewModel.find()
+                .limit(5)
+                .populate('userId', 'fullname');
+        }
+
+        res.status(200).json({ reviews });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+};

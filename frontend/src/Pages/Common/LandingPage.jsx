@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, BookOpen, Heart, ChevronRight, Sparkles, Award, Users, Shield } from 'lucide-react';
 import Navbar from "../../Components/Common/Navbar";
 
@@ -216,11 +216,51 @@ const LandingPage = () => {
         fetchRandomBooks();
     }, []);
 
-    const testimonials = [
-        { name: 'Sarah Johnson', role: 'Book Lover', text: 'Amazing collection! Found rare books I was searching for years.', avatar: '👩‍💼' },
-        { name: 'Mike Chen', role: 'Student', text: 'Fast delivery and great prices. My go-to bookstore (Readora) now!', avatar: '👨‍🎓' },
-        { name: 'Emily Davis', role: 'Teacher', text: 'The recommendations are spot on. Love this platform!', avatar: '👩‍🏫' }
-    ];
+    const [testimonials, setTestimonials] = useState([]);
+    const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await axios.get('http://localhost:4000/reviews/random');
+                const fetchedReviews = response.data.reviews.map(review => ({
+                    name: review.user?.fullname || 'Anonymous Reader',
+                    role: 'Verified Reader',
+                    text: review.comment,
+                    rating: review.rating,
+                    avatar: ['👩‍💼', '👨‍🎓', '👩‍🏫', '👨‍💻', '👩‍🎨'][Math.floor(Math.random() * 5)]
+                }));
+                // Ensure at least 3 reviews for good display, fallback if empty
+                if (fetchedReviews.length === 0) {
+                    setTestimonials([
+                        { name: 'Sarah Johnson', role: 'Book Lover', text: 'Amazing collection! Found rare books I was searching for years.', rating: 5, avatar: '👩‍💼' },
+                        { name: 'Mike Chen', role: 'Student', text: 'Fast delivery and great prices. My go-to bookstore (Readora) now!', rating: 5, avatar: '👨‍🎓' },
+                        { name: 'Emily Davis', role: 'Teacher', text: 'The recommendations are spot on. Love this platform!', rating: 4, avatar: '👩‍🏫' }
+                    ]);
+                } else {
+                    setTestimonials(fetchedReviews);
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+                // Fallback on error
+                setTestimonials([
+                    { name: 'Sarah Johnson', role: 'Book Lover', text: 'Amazing collection! Found rare books I was searching for years.', rating: 5, avatar: '👩‍💼' },
+                    { name: 'Mike Chen', role: 'Student', text: 'Fast delivery and great prices. My go-to bookstore (Readora) now!', rating: 5, avatar: '👨‍🎓' },
+                    { name: 'Emily Davis', role: 'Teacher', text: 'The recommendations are spot on. Love this platform!', rating: 4, avatar: '👩‍🏫' }
+                ]);
+            }
+        };
+
+        fetchReviews();
+    }, []);
+
+    useEffect(() => {
+        if (testimonials.length === 0) return;
+        const interval = setInterval(() => {
+            setCurrentTestimonialIndex(prev => (prev + 1) % testimonials.length);
+        }, 5000); // Change every 5 seconds
+        return () => clearInterval(interval);
+    }, [testimonials]);
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-amber-50/50 via-white to-emerald-50/30 font-sans text-gray-900">
@@ -540,7 +580,7 @@ const LandingPage = () => {
             </section>
 
             {/* Testimonials Section */}
-            <section className="py-24 bg-gradient-to-br from-emerald-50 via-white to-amber-50">
+            <section className="py-24 bg-gradient-to-br from-emerald-50 via-white to-amber-50 overflow-hidden">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -556,31 +596,59 @@ const LandingPage = () => {
                         </h2>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {testimonials.map((testimonial, idx) => (
-                            <motion.div
+                    <div className="relative max-w-4xl mx-auto h-[400px] flex items-center justify-center">
+                        {/* Decorative Elements */}
+                        <div className="absolute top-0 left-0 w-20 h-20 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+                        <div className="absolute -bottom-8 left-20 w-20 h-20 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+
+                        <AnimatePresence mode="wait">
+                            {testimonials.length > 0 && (
+                                <motion.div
+                                    key={currentTestimonialIndex}
+                                    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -50, scale: 0.9 }}
+                                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                                    className="absolute inset-0 flex flex-col items-center justify-center text-center p-8 lg:p-12 bg-white/60 backdrop-blur-md border border-white/40 shadow-2xl rounded-3xl"
+                                >
+                                    <div className="flex text-amber-500 mb-6">
+                                        {[...Array(5)].map((_, i) => (
+                                            <Star key={i} size={24} fill={i < testimonials[currentTestimonialIndex].rating ? "#f59e0b" : "none"} className="text-amber-500" />
+                                        ))}
+                                    </div>
+
+                                    <motion.p
+                                        className="text-2xl md:text-3xl font-medium text-gray-800 mb-8 leading-relaxed italic relative z-10"
+                                    >
+                                        <span className="absolute -top-6 -left-4 text-6xl text-emerald-200 opacity-50 font-serif">"</span>
+                                        {testimonials[currentTestimonialIndex].text}
+                                        <span className="absolute -bottom-10 -right-4 text-6xl text-emerald-200 opacity-50 font-serif">"</span>
+                                    </motion.p>
+
+                                    <div className="flex items-center gap-4 mt-auto">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center text-3xl shadow-inner">
+                                            {testimonials[currentTestimonialIndex].avatar}
+                                        </div>
+                                        <div className="text-left">
+                                            <h4 className="font-bold text-xl text-gray-900">{testimonials[currentTestimonialIndex].name}</h4>
+                                            <p className="text-emerald-600 font-medium">{testimonials[currentTestimonialIndex].role}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    <div className="flex justify-center gap-3 mt-8">
+                        {testimonials.map((_, idx) => (
+                            <button
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.15 }}
-                                whileHover={{ y: -5 }}
-                                className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100"
-                            >
-                                <div className="flex text-amber-500 mb-4">
-                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} size={18} fill="currentColor" />)}
-                                </div>
-                                <p className="text-gray-600 text-lg mb-6 leading-relaxed">"{testimonial.text}"</p>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-14 h-14 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center text-2xl">
-                                        {testimonial.avatar}
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-gray-900">{testimonial.name}</p>
-                                        <p className="text-gray-500 text-sm">{testimonial.role}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                onClick={() => setCurrentTestimonialIndex(idx)}
+                                className={`w-3 h-3 rounded-full transition-all duration-300 ${idx === currentTestimonialIndex ? "bg-emerald-600 w-8" : "bg-gray-300 hover:bg-emerald-300"
+                                    }`}
+                                aria-label={`Go to testimonial ${idx + 1}`}
+                            />
                         ))}
                     </div>
                 </div>
