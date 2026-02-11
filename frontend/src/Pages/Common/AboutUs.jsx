@@ -99,7 +99,7 @@ const AboutUs = () => {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                 <div className="absolute bottom-8 left-8 text-white">
-                                    <p className="text-lg font-medium opacity-90">Established 2024</p>
+                                    <p className="text-lg font-medium opacity-90">Established 2026</p>
                                     <h3 className="text-2xl font-bold">The Journey Begins</h3>
                                 </div>
                             </div>

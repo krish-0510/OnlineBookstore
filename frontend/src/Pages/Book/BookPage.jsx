@@ -32,12 +32,12 @@ const FALLBACK_BOOK = {
     format: 'Hardcover',
     isbn: '978-1-4028-9462-6',
     publisher: 'Aurora Press',
-    year: 2024,
+    year: 2026,
     rating: 4.9,
     ratingCount: 2180,
     tags: ['Signed Copy', 'Illustrated', 'Limited Run'],
     sellerId: { storename: 'Nimbus Books', location: 'Mumbai, IN' },
-    createdAt: '2024-08-12T00:00:00.000Z'
+    createdAt: '2026-08-12T00:00:00.000Z'
 };
 
 const BookPage = () => {
@@ -455,7 +455,7 @@ const BookPage = () => {
     const metadata = useMemo(
         () => [
             { label: 'Publisher', value: displayBook.publisher || 'Aurora Press', icon: BookOpen },
-            { label: 'Release', value: displayBook.year || '2024', icon: Calendar },
+            { label: 'Release', value: displayBook.year || '2026', icon: Calendar },
             { label: 'Language', value: displayBook.language || 'English', icon: Globe },
             { label: 'Pages', value: displayBook.pages || '412', icon: Layers }
         ],
@@ -697,9 +697,8 @@ const BookPage = () => {
                                                                 <img
                                                                     src={coverUrl}
                                                                     alt={`${displayBook.name} cover`}
-                                                                    className={`max-h-full max-w-full object-contain brightness-110 contrast-105 saturate-105 transition-opacity duration-500 ${
-                                                                        coverLoaded ? 'opacity-100' : 'opacity-0'
-                                                                    }`}
+                                                                    className={`max-h-full max-w-full object-contain brightness-110 contrast-105 saturate-105 transition-opacity duration-500 ${coverLoaded ? 'opacity-100' : 'opacity-0'
+                                                                        }`}
                                                                     onLoad={() => setCoverLoaded(true)}
                                                                     onError={handleCoverError}
                                                                     loading="lazy"
@@ -708,14 +707,12 @@ const BookPage = () => {
                                                             </div>
                                                         )}
                                                         <div
-                                                            className={`absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.5),transparent_60%)] transition-opacity duration-500 ${
-                                                                coverLoaded ? 'opacity-0' : 'opacity-100'
-                                                            }`}
+                                                            className={`absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.5),transparent_60%)] transition-opacity duration-500 ${coverLoaded ? 'opacity-0' : 'opacity-100'
+                                                                }`}
                                                         />
                                                         <div
-                                                            className={`absolute inset-0 bg-[linear-gradient(160deg,rgba(15,118,110,0.6),rgba(30,41,59,0.6),rgba(249,115,22,0.5))] transition-opacity duration-500 ${
-                                                                coverLoaded ? 'opacity-0' : 'opacity-100'
-                                                            }`}
+                                                            className={`absolute inset-0 bg-[linear-gradient(160deg,rgba(15,118,110,0.6),rgba(30,41,59,0.6),rgba(249,115,22,0.5))] transition-opacity duration-500 ${coverLoaded ? 'opacity-0' : 'opacity-100'
+                                                                }`}
                                                         />
                                                         {!coverLoaded && (
                                                             <div className="relative z-10 flex h-full flex-col justify-between p-6 text-white">

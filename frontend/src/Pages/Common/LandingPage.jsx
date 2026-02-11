@@ -301,7 +301,7 @@ const LandingPage = () => {
                                 className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full text-sm font-semibold shadow-lg shadow-emerald-500/25"
                             >
                                 <Sparkles size={18} />
-                                <span>#1 Rated Online Bookstore 2024 (Readora)</span>
+                                <span>#1 Rated Online Bookstore 2026 (Readora)</span>
                                 <Award size={18} />
                             </motion.div>
 
@@ -324,8 +324,9 @@ const LandingPage = () => {
                                 variants={fadeInUp}
                                 className="text-xl text-gray-600 leading-relaxed max-w-lg"
                             >
-                                Dive into our world of <span className="font-semibold text-emerald-600">5 million+ books</span>.
-                                From timeless classics to trending bestsellers, your next favorite read is just a click away!
+                                Dive into our world of <span className="font-semibold text-emerald-600">books</span>.
+                                <br />
+                                Your next favorite read is just a click away!
                             </motion.p>
 
                             {/* CTA Buttons */}
@@ -333,6 +334,12 @@ const LandingPage = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.05, y: -2 }}
                                     whileTap={{ scale: 0.98 }}
+                                    onClick={() => {
+                                        const element = document.getElementById('featured-books');
+                                        if (element) {
+                                            element.scrollIntoView({ behavior: 'smooth' });
+                                        }
+                                    }}
                                     className="group px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-2xl font-bold text-lg hover:from-emerald-500 hover:to-teal-500 transition-all flex items-center gap-3 shadow-xl shadow-emerald-500/30"
                                 >
                                     <BookOpen size={22} />
@@ -340,13 +347,6 @@ const LandingPage = () => {
                                     <motion.span animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                                         <ArrowRight size={22} />
                                     </motion.span>
-                                </motion.button>
-                                <motion.button
-                                    whileHover={{ scale: 1.05, y: -2 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    className="px-8 py-4 bg-white text-gray-700 border-2 border-gray-200 rounded-2xl font-bold text-lg hover:border-emerald-400 hover:text-emerald-600 hover:shadow-lg transition-all"
-                                >
-                                    Browse Categories
                                 </motion.button>
                             </motion.div>
 
@@ -438,45 +438,6 @@ const LandingPage = () => {
                                                 <span className="text-2xl font-bold text-emerald-600">₹124.99</span>
                                                 <span className="text-sm text-gray-400 line-through ml-2">₹134.99</span>
                                             </div>
-                                            <motion.button
-                                                whileHover={{ scale: 1.05 }}
-                                                whileTap={{ scale: 0.95 }}
-                                                className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-semibold text-sm shadow-lg shadow-emerald-500/25"
-                                            >
-                                                Add to Cart
-                                            </motion.button>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    animate={{ y: [0, -8, 0], x: [0, 5, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="absolute -right-8 top-20 bg-white rounded-2xl shadow-xl p-4 border border-gray-100"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-                                            <Users size={24} className="text-white" />
-                                        </div>
-                                        <div>
-                                            <p className="text-2xl font-bold text-gray-900">50K+</p>
-                                            <p className="text-xs text-gray-500">Active Users</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
-                                <motion.div
-                                    animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
-                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                    className="absolute -left-12 bottom-20 bg-white rounded-2xl shadow-xl p-4 border border-gray-100"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg">
-                                            <BookOpen size={24} className="text-white" />
-                                        </div>
-                                        <div>
-                                            <p className="text-2xl font-bold text-gray-900">5M+</p>
-                                            <p className="text-xs text-gray-500">Books Available</p>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -486,68 +447,8 @@ const LandingPage = () => {
                 </div>
             </section>
 
-            {/* Categories Section */}
-            <section className="py-12 bg-gradient-to-b from-white to-gray-50">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-center mb-16"
-                    >
-                        <span className="inline-block px-4 py-2 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold mb-4">
-                            📚 EXPLORE BY GENRE
-                        </span>
-                        <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                            Find Your Perfect <span className="text-emerald-600">Genre</span>
-                        </h2>
-                        <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-                            Whether you love fiction, science, or history - we have something for everyone!
-                        </p>
-                    </motion.div>
-
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                        {categories.map((category, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                whileHover={{ y: -10, scale: 1.02 }}
-                                className="group cursor-pointer"
-                            >
-                                <div className={`relative h-48 bg-gradient-to-br ${category.gradient} rounded-3xl p-6 shadow-lg overflow-hidden`}>
-                                    <div className="absolute inset-0 opacity-10">
-                                        <div className="absolute top-0 right-0 text-[150px] transform translate-x-1/4 -translate-y-1/4">
-                                            {category.emoji}
-                                        </div>
-                                    </div>
-                                    <div className="relative z-10 h-full flex flex-col justify-between">
-                                        <motion.span className="text-5xl" whileHover={{ scale: 1.2, rotate: 10 }}>
-                                            {category.emoji}
-                                        </motion.span>
-                                        <div>
-                                            <h3 className="text-white text-xl font-bold mb-1">{category.name}</h3>
-                                            <p className="text-white/80 text-sm">{category.count} Books</p>
-                                        </div>
-                                    </div>
-                                    <motion.div
-                                        initial={{ opacity: 0, x: -10 }}
-                                        whileHover={{ opacity: 1, x: 0 }}
-                                        className="absolute bottom-6 right-6 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
-                                    >
-                                        <ArrowRight size={18} className="text-white" />
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Featured Books Section */}
-            <section className="py-24 bg-white">
+            <section id="featured-books" className="py-24 bg-white">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -701,7 +602,7 @@ const LandingPage = () => {
                         ))}
                     </div>
                     <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-gray-500 text-sm">© 2024 Readora. Made with ❤️ for book lovers</p>
+                        <p className="text-gray-500 text-sm">© 2026 Readora. Made with ❤️ for book lovers</p>
                         <div className="flex gap-6 text-gray-400 text-sm">
                             <a href="#" className="hover:text-emerald-400 transition-colors">Privacy</a>
                             <a href="#" className="hover:text-emerald-400 transition-colors">Terms</a>
